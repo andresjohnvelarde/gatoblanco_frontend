@@ -1,0 +1,53 @@
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Negro con ligera transparencia */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    /* Para que siempre esté por encima de todo */
+    color: white;
+    font-family: sans-serif;
+
+    opacity: 0;
+    transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+}
+
+.spinner {
+    width: 150px;
+    height: 150px;
+    border: 15px solid rgba(255, 255, 255, 0.1);
+    border-top: 15px solid #ffffff;
+    /* Color del arco que gira */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@starting-style {
+    .loading-overlay {
+        opacity: 0;
+    }
+}
+
+.loading-overlay[style*="display: flex"],
+/* O si usas una clase activa */
+:host-context(app-loading) .loading-overlay {
+    opacity: 1;
+}

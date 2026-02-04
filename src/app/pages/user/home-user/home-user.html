@@ -1,0 +1,92 @@
+<div class="contenedor_noticias">
+    <app-titulo texto="Administrar Noticias"></app-titulo>
+
+</div>
+
+
+<div class="admin-page-container">
+    <div class="admin-header">
+
+        <div class="search-box">
+            <input type="text" [(ngModel)]="filtro" placeholder="Buscar noticia por título...">
+        </div>
+
+        <div class="header-right">
+            <button class="btn-primary" (click)="abrirModalCrear()">CREAR NOTICIA +</button>
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Fecha de Publicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="noticiasPaginadas.length > 0; else sinResultados">
+                <tr *ngFor="let noticia of noticiasPaginadas">
+                    <td><img [src]="apiUrl + '/' + noticia.img1" class="img-preview" alt="noticia"></td>
+                    <td class="bold">{{ noticia.titulo }}</td>
+                    <td class="text-truncate">{{ noticia.descripcion }}</td>
+                    <td>
+                        <span [class]="'badge ' + (noticia.estado == 1 ? 'visible' : 'oculto')">
+                            {{ noticia.estado == 1 ? 'Visible' : 'Oculto' }}
+                        </span>
+                    </td>
+                    <td>{{ noticia.fecha_publicacion_formateada }}</td>
+                    <td class="actions-cell">
+                        <button class="btn-icon" title="Visualizar Noticia" (click)="previsualizar(noticia.id)"><i
+                                class="fas fa-eye"></i></button>
+                        <button class="btn-icon" title="Modificar Noticia" (click)="abrirModalEditar(noticia)"><i
+                                class="fas fa-edit"></i></button>
+                        <button class="btn-icon btn-danger" title="Eliminar Noticia"
+                            (click)="abrirModalEliminar(noticia)"><i class="fas fa-trash"></i></button>
+                        <button class="btn-icon" (click)="cambiarEstado(noticia)"
+                            [title]="noticia.estado == 1 ? 'Ocultar Noticia' : 'Mostrar Noticia'">
+                            <i [class]="noticia.estado == 1 ? 'fas fa-toggle-on' : 'fas fa-toggle-off'"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <ng-template #sinResultados>
+                <tbody>
+                    <tr>
+                        <td colspan="6" class="no-results">
+                            No se encontraron resultados
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+    </div>
+
+    <div class="pagination" *ngIf="totalPaginas > 1">
+        <button (click)="paginaActual = paginaActual - 1" [disabled]="paginaActual === 1">ANTERIOR</button>
+
+        <ng-container *ngFor="let p of paginasVisibles; let i = index">
+            <span *ngIf="i > 0 && p !== paginasVisibles[i-1] + 1">...</span>
+            <button [class.active]="p === paginaActual" (click)="paginaActual = p">{{ p }}</button>
+        </ng-container>
+
+        <button (click)="paginaActual = paginaActual + 1" [disabled]="paginaActual === totalPaginas">SIGUIENTE</button>
+    </div>
+</div>
+
+<app-modal-ce-noticia *ngIf="mostrarModal" [noticiaParaEditar]="noticiaSeleccionada" (close)="recargarNoticias()"
+    (save)="guardarNoticia($event)">
+</app-modal-ce-noticia>
+
+<app-modal-eliminar *ngIf="mostrarModalEliminar" [preMensaje]="'¿Confirma la eliminación de la noticia '"
+    [objetoNombre]="noticiaParaEliminar?.titulo" [sufMensaje]="' del sistema?'" (alConfirmar)="confirmarEliminacion()"
+    (alCancelar)="mostrarModalEliminar = false">
+</app-modal-eliminar>
+
+<!-- <app-loading *ngIf="cargando"></app-loading> -->
+
+<!-- <app-formulario-video></app-formulario-video> -->

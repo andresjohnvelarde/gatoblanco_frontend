@@ -1,0 +1,21 @@
+<section class="video-upload-test">
+    <h3 class="upload-title">Prueba de Carga de Video</h3>
+
+    <div class="upload-controls">
+        <input type="file" (change)="onFileSelected($event)" accept="video/*" class="file-input">
+
+        <p *ngIf="errorMessage" class="error-msg">
+            {{ errorMessage }}
+        </p>
+
+        <button (click)="onUpload()" [disabled]="!selectedFile || isUploading" class="btn-upload">
+            {{ isUploading ? 'Subiendo...' : 'Subir Video' }}
+        </button>
+    </div>
+
+    <div *ngIf="videoUrl" class="result-container">
+        <p class="result-label">URL para el reproductor:</p>
+        <code class="result-url">{{ videoUrl }}</code>
+        <p class="result-note">* Copia este enlace en la sección de visualización.</p>
+    </div>
+</section>

@@ -1,0 +1,167 @@
+<div class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>{{ noticiaParaEditar ? 'MODIFICAR NOTICIA' : 'CREAR NUEVA NOTICIA' }}</h2>
+            <button class="btn-close" (click)="close.emit()">×</button>
+        </div>
+
+        <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()" class="modal-body">
+
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label>Título de la Noticia *</label>
+                    <input type="text" formControlName="titulo" placeholder="Ej: Gran hallazgo arqueológico">
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha de Publicación *</label>
+                    <input type="date" formControlName="fechaPublicacion">
+                </div>
+
+                <div class="form-group">
+                    <label>Estado de Visibilidad</label>
+                    <div class="switch-container">
+                        <span>Oculto</span>
+                        <label class="switch">
+                            <input type="checkbox" formControlName="estado">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Visible</span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label>Imagen Principal *</label>
+                    <label class="btn-file">
+                        Seleccionar archivo
+                        <input type="file" (change)="handleFileInput($event, 'img1')" accept="image/*">
+                    </label>
+
+                    <div class="preview-container">
+                        <img [src]="getPreview('img1')" class="preview-img" *ngIf="noticiaForm.value.img1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción Principal *</label>
+                    <textarea formControlName="descripcion"></textarea>
+                </div>
+
+                <div class="optional-divider"><span>CONTENIDO DE LA NOTICIA</span></div>
+
+
+                <div formArrayName="bloques" class="blocks-container">
+
+                    <div *ngFor="let block of bloques.controls; let i = index" [formGroupName]="i" class="block-item">
+
+                        <button type="button" class="btn-remove" (click)="removeBlock(i)">✕</button>
+
+                        <!-- PÁRRAFO -->
+                        <ng-container *ngIf="block.value.type === 'paragraph'">
+                            <label class="block-label">Párrafo</label>
+                            <textarea formControlName="content" placeholder="Escribe el párrafo..."></textarea>
+                        </ng-container>
+
+                        <!-- SUBTÍTULO -->
+                        <ng-container *ngIf="block.value.type === 'subtitle'">
+                            <label class="block-label">Subtítulo</label>
+                            <input type="text" formControlName="content" placeholder="Subtítulo de sección">
+                        </ng-container>
+
+                        <!-- IMAGEN -->
+                        <ng-container *ngIf="block.value.type === 'image'">
+                            <label class="block-label">Imagen</label>
+
+                            <label class="btn-upload">
+                                📷 Seleccionar imagen
+                                <input type="file" accept="image/*" (change)="handleBlockFile($event, i)">
+                            </label>
+
+                            <div class="block-preview" *ngIf="block.value.preview">
+                                <img [src]="block.value.preview">
+                            </div>
+
+                            <input type="text" formControlName="caption" placeholder="Pie de imagen (opcional)">
+                        </ng-container>
+
+                        <!-- VIDEO -->
+                        <ng-container *ngIf="block.value.type === 'video'">
+                            <label class="block-label">Video</label>
+
+                            <label class="btn-upload">
+                                🎥 Seleccionar video
+                                <input type="file" accept="video/*" (change)="handleBlockFile($event, i)">
+                            </label>
+
+                            <div class="block-preview" *ngIf="block.value.preview">
+                                <video controls [src]="block.value.preview"></video>
+                            </div>
+
+                            <input type="text" formControlName="caption" placeholder="Descripción del video (opcional)">
+                        </ng-container>
+
+                    </div>
+                </div>
+
+                <div class="block-toolbar">
+                    <button type="button" class="tool-btn" (click)="addParagraph()">📝 Añadir Párrafo</button>
+                    <button type="button" class="tool-btn" (click)="addSubtitle()">🧷 Añadir Subtítulo</button>
+                    <button type="button" class="tool-btn" (click)="addImage(null)">🖼 Añadir Imagen</button>
+                    <button type="button" class="tool-btn" (click)="addVideo(null)">🎥 Añadir Video</button>
+                </div>
+
+                <div class="form-group full">
+                    <label>Link de publicación en Twitter (Opcional)</label>
+                    <input type="text" formControlName="link_twitter" placeholder="https://twitter.com/...">
+                </div>
+
+                <div class="optional-divider"><span>AUTORÍAS</span></div>
+
+                <div formArrayName="autorias" class="blocks-container">
+
+                    <div *ngFor="let autoria of autorias.controls; let i = index" [formGroupName]="i"
+                        class="block-item">
+
+                        <button type="button" class="btn-remove" (click)="removeAutoria(i)">✕</button>
+
+                        <!-- PÁRRAFO -->
+                        <ng-container>
+
+                            <label class="block-label">Fotografía</label>
+
+                            <label class="btn-upload">
+                                📷 Seleccionar fotografía
+                                <input type="file" accept="image/*" (change)="handleAutoriaFile($event, i)">
+                            </label>
+
+                            <div class="block-preview" *ngIf="autoria.value.preview">
+                                <img [src]="autoria.value.preview">
+                            </div>
+
+                            <label class="block-label">Descripción de la autoría</label>
+                            <textarea formControlName="descripcion"
+                                placeholder="Descripción de la autoría..."></textarea>
+
+                        </ng-container>
+
+                    </div>
+                </div>
+
+                <div class="block-toolbar">
+                    <button type="button" class="tool-btn" (click)="addAutoria(null)">📝 Añadir Autoría</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" (click)="close.emit()">CANCELAR</button>
+                <button type="submit" class="btn-save" [disabled]="noticiaForm.invalid || isSubmitting">
+                    {{ isSubmitting ? 'PROCESANDO...' : (noticiaParaEditar ? 'ACTUALIZAR' : 'GUARDAR') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<app-loading *ngIf="isLoading"></app-loading>

@@ -1,0 +1,49 @@
+<div class="page-wrapper">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a routerLink="/" class="logo">
+                <img src="images/portada.png" alt="GatoBlanco Logo" class="logo-img">
+            </a>
+
+            <button class="menu-toggle" (click)="isMenuOpen = !isMenuOpen" [class.open]="isMenuOpen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" [class.show]="isMenuOpen">
+                <li>
+                    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                        (click)="isMenuOpen = false">
+                        Inicio
+                        <span class="footprint"></span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/home/noticias" routerLinkActive="active" (click)="isMenuOpen = false">
+                        Noticias
+                        <span class="footprint"></span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/home/reportajes" routerLinkActive="active" (click)="isMenuOpen = false">
+                        Reportajes
+                        <span class="footprint"></span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/home/contacto" routerLinkActive="active" (click)="isMenuOpen = false">
+                        Contacto
+                        <span class="footprint"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content">
+        <router-outlet />
+    </div>
+
+    <app-footer></app-footer>
+</div>

@@ -1,0 +1,63 @@
+<main class="contacto-container">
+    <div class="contacto-wrapper">
+
+        <div class="info-column">
+            <div class="profile-box">
+                <img src="images/gatoblanco_perfil.png" alt="GatoBlanco Perfil" class="profile-img">
+            </div>
+
+            <h1 class="page-title">Contáctanos</h1>
+            <p class="lead">Envía tu información, denuncias o sugerencias. Este mensaje será gestionado de forma
+                confidencial por nuestro equipo.</p>
+
+            <div class="location-box">
+                <strong>UBICACIÓN CENTRAL</strong>
+                <p>La Paz, Bolivia</p>
+            </div>
+        </div>
+
+        <div class="form-column">
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" formControlName="nombre" placeholder="Ej. Juan Pérez"
+                            [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número de Celular</label>
+                        <input type="text" formControlName="celular" placeholder="Ej. 70012345"
+                            [ngClass]="{ 'is-invalid': submitted && f['celular'].errors }">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Asunto</label>
+                    <input type="text" formControlName="asunto" placeholder="¿Cuál es el motivo de tu mensaje?"
+                        [ngClass]="{ 'is-invalid': submitted && f['asunto'].errors }">
+                </div>
+
+                <div class="form-group">
+                    <label>Tu Mensaje</label>
+                    <textarea rows="6" formControlName="mensaje" placeholder="Escribe aquí los detalles..."
+                        [ngClass]="{ 'is-invalid': submitted && f['mensaje'].errors }"></textarea>
+                    <small class="char-count" *ngIf="f['mensaje'].value">
+                        Caracteres: {{ f['mensaje'].value.length }}
+                    </small>
+                </div>
+
+                <button type="submit" class="btn-send">
+                    ENVIAR MENSAJE
+                    <span class="footprint-btn"></span>
+                </button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<app-modal-creado *ngIf="mostrarModalCreado" [preMensaje]="'Se envió correctamente su mensaje, nos contactaremos con usted'"
+    (alConfirmar)="confirmarAceptar()" >
+</app-modal-creado>

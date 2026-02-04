@@ -1,0 +1,382 @@
+.page-wrapper {
+    min-height: 100vh;
+    /* Ocupa toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    /* Empuja el footer hacia abajo si hay poco contenido */
+}
+
+/* --- Estilos Base --- */
+.navbar {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 200px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 90px;
+    /* Ajusta la altura a tu gusto */
+    width: auto;
+    /* Mantiene la proporción */
+    display: block;
+    margin: -20px;
+}
+
+/* --- Links de Navegación (Escritorio) --- */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+    margin: 0;
+}
+
+.nav-links li a {
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    /* Texto arriba, huella abajo */
+    align-items: center;
+    transition: color 0.3s;
+}
+
+/* --- La Huella (Escritorio: Abajo) --- */
+.footprint {
+    width: 30px;
+    height: 30px;
+    background-image: url('/images/huella_opc.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    margin-top: 5px;
+    /* Espacio debajo del texto */
+    transition: all 0.3s ease;
+
+
+
+}
+
+.nav-links a.active .footprint {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-links a:not(.active):hover .footprint {
+    opacity: 0.3;
+}
+
+/* --- Botón Hamburguesa (Oculto en PC) --- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.menu-toggle span {
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    transition: 0.3s;
+}
+
+/* --- RESPONSIVO (Móvil) --- */
+@media (max-width: 970px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        /* Cambiado de fixed a absolute */
+        top: 100%;
+        /* Empieza justo debajo de la navbar */
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        /* El alto se ajusta al contenido */
+        background-color: #000;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        /* Centra los items horizontalmente */
+        padding: 1rem 0;
+        /* Espacio interno arriba y abajo */
+        gap: 1.0rem;
+
+        /* Animación de cortina desde arriba */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: all 0.4s ease-in-out;
+    }
+
+    .logo-img {
+        height: 70px;
+        /* Ajusta la altura a tu gusto */
+        width: auto;
+        /* Mantiene la proporción */
+        display: block;
+        margin: -5px;
+        z-index: 1000;
+    }
+
+    .nav-links.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        /* Baja a su posición original */
+        border-top: 1px solid white;
+    }
+
+    .nav-links li {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-links li a {
+        flex-direction: row;
+        /* Texto izquierda, huella derecha */
+        justify-content: center;
+        /* Centra el conjunto texto+huella */
+        align-items: center;
+        width: auto;
+        /* No ocupa todo el ancho para que el click sea natural */
+        font-size: 1.0rem;
+    }
+
+    /* La Huella en Móvil (Derecha) */
+    .footprint {
+        margin-top: 0;
+        margin-left: 15px;
+        width: 25px;
+        height: 25px;
+        position: relative;
+        /* Para que no flote sobre el texto */
+    }
+
+    /* Animación hamburguesa a X */
+    .menu-toggle.open span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 6px);
+    }
+
+    .menu-toggle.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+}
+
+@media (max-width: 470px) {
+    .logo-img {
+        height: 60px;
+        /* Ajusta la altura a tu gusto */
+        width: auto;
+        /* Mantiene la proporción */
+        display: block;
+        margin: -5px;
+    }
+}
+
+/* footer */
+
+.main-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 25px 200px;
+    /* Manteniendo tu padding de escritorio */
+    margin-top: 40px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+/* --- Brand Section --- */
+.footer-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footer-logo-img {
+    width: 90px;
+    height: auto;
+    filter: brightness(1.2);
+    /* Resalta el logo en el fondo negro */
+}
+
+.brand-text {
+    font-size: 1.3rem;
+
+    letter-spacing: 2px;
+}
+
+.brand-text small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: #bbbbbb;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+
+/* --- Redes Sociales --- */
+.footer-social {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.social-icon {
+    width: 30px;
+    /* Tamaño ideal para footer */
+    height: 30px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+
+    /* Esto vuelve las imágenes blancas (si tus iconos son negros) */
+}
+
+.footer-social a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: #a8a8a8;
+    transform: translateY(-5px);
+}
+
+.footer-social a:hover .social-icon {
+
+    /* Pequeño salto al pasar el mouse */
+    filter: brightness(0.9) invert(1);
+    /* Se oscurece un poco al hover */
+}
+
+/* --- Botón Volver Arriba --- */
+.btn-back-top {
+    background: none;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.footprint-up {
+    width: 20px;
+    height: 20px;
+    background-image: url('/images/huella_inv.png');
+    /* Usando tu imagen */
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    /* Apuntando hacia arriba */
+}
+
+.btn-back-top:hover {
+    background-color: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+
+/* --- RESPONSIVO --- */
+@media (max-width: 970px) {
+    .main-footer {
+        padding: 15px 20px;
+        margin: 0;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 0;
+    }
+
+    .footer-logo-group {
+        justify-content: center;
+        gap: 0;
+    }
+
+    .footer-social {
+        order: 2;
+    }
+
+    .footer-back-top {
+        order: 3;
+    }
+
+    .footer-social {
+        justify-content: center;
+        gap: 30px;
+        /* Más espacio para que sea fácil tocarlos con el dedo */
+    }
+
+    .social-icon {
+        width: 35px;
+        /* Un poco más grandes en móvil para usabilidad */
+        height: 35px;
+    }
+
+    .btn-back-top {
+        margin-top: 10px;
+        padding: 5px 10px;
+        font-size: 0.7rem;
+    }
+}

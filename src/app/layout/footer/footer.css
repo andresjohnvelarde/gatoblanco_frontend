@@ -1,0 +1,167 @@
+.main-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 25px 200px;
+    /* Manteniendo tu padding de escritorio */
+    margin-top: 40px;
+    z-index: 1200 !important;
+    position: relative;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+
+}
+
+/* --- Brand Section --- */
+.footer-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footer-logo-img {
+    width: 90px;
+    height: auto;
+    filter: brightness(1.2);
+    /* Resalta el logo en el fondo negro */
+}
+
+.brand-text {
+    font-size: 1.3rem;
+
+    letter-spacing: 2px;
+}
+
+.brand-text small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: #bbbbbb;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+
+/* --- Redes Sociales --- */
+.footer-social {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.social-icon {
+    width: 30px;
+    /* Tamaño ideal para footer */
+    height: 30px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+
+    /* Esto vuelve las imágenes blancas (si tus iconos son negros) */
+}
+
+.footer-social a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: #a8a8a8;
+    transform: translateY(-5px);
+}
+
+.footer-social a:hover .social-icon {
+
+    /* Pequeño salto al pasar el mouse */
+    filter: brightness(0.9) invert(1);
+    /* Se oscurece un poco al hover */
+}
+
+/* --- Botón Volver Arriba --- */
+.btn-back-top {
+    background: none;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.footprint-up {
+    width: 20px;
+    height: 20px;
+    background-image: url('/images/huella_inv.png');
+    /* Usando tu imagen */
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    /* Apuntando hacia arriba */
+}
+
+.btn-back-top:hover {
+    background-color: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+
+/* --- RESPONSIVO --- */
+@media (max-width: 970px) {
+    .main-footer {
+        padding: 15px 20px;
+        margin: 0;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 0;
+    }
+
+    .footer-logo-group {
+        justify-content: center;
+        gap: 0;
+    }
+
+    .footer-social {
+        order: 2;
+    }
+
+    .footer-back-top {
+        order: 3;
+    }
+
+    .footer-social {
+        justify-content: center;
+        gap: 30px;
+        /* Más espacio para que sea fácil tocarlos con el dedo */
+    }
+
+    .social-icon {
+        width: 35px;
+        /* Un poco más grandes en móvil para usabilidad */
+        height: 35px;
+    }
+
+    .btn-back-top {
+        margin-top: 10px;
+        padding: 5px 10px;
+        font-size: 0.7rem;
+    }
+}

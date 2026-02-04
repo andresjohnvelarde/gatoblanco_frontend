@@ -1,0 +1,179 @@
+.login-page {
+    margin-top: 20px;
+    /* Ajuste según altura de navbar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.login-card {
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #000;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-logo {
+    height: 80px;
+    margin-bottom: 15px;
+}
+
+.brand-name {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.brand-name span {
+    font-weight: 300;
+}
+
+.login-subtitle {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    font-family: sans-serif;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #000;
+}
+
+.is-invalid {
+    border-color: #e74c3c;
+}
+
+.error-msg {
+    color: #e74c3c;
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+/* Botón con tu estilo de huella */
+.btn-login {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background: #333;
+}
+
+.btn-login:hover .footprint-btn {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.footprint-btn {
+    width: 20px;
+    height: 20px;
+    background-image: url('/images/huella_inv.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.back-link {
+    font-size: 0.8rem;
+    color: #888;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: #000;
+}
+
+/* Password eye */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper .form-control {
+    padding-right: 45px;
+    /* espacio para el ojo */
+}
+
+.btn-eye {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #777;
+    font-size: 1rem;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.btn-eye:hover {
+    color: #000;
+}
+
+
+/* Móvil */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 30px 20px;
+    }
+
+    .login-page {
+        margin-top: 5px;
+        /* Ajuste según altura de navbar */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f9f9f9;
+        padding: 20px;
+    }
+}

@@ -1,0 +1,41 @@
+<div class="contenedor_noticias">
+    <app-titulo texto="Administrar Mensajes"></app-titulo>
+
+</div>
+
+<div class="admin-page-container">
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nombre completo del Remitente</th>
+                    <th>Asunto</th>
+                    <th>Mensaje</th>
+                    <th>Número de Celular del Remitente</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mensaje of mensajes">
+                    <td class="bold">{{ mensaje.nombre }}</td>
+                    <td class="bold">{{ mensaje.asunto }}</td>
+                    <td class="bold">{{ mensaje.mensaje }}</td>
+                    <td class="bold">{{ mensaje.celular }}</td>
+                    <td class="actions-cell">
+                        <button class="btn-icon btn-danger" title="Eliminar Mensaje"
+                            (click)="abrirModalEliminar(mensaje)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<app-modal-eliminar *ngIf="mostrarModalEliminar" [preMensaje]="'¿Confirma la eliminación del mensaje de '"
+    [objetoNombre]="mensajeParaEliminar?.nombre" [sufMensaje]="' del sistema?'" (alConfirmar)="confirmarEliminacion()"
+    (alCancelar)="mostrarModalEliminar = false">
+</app-modal-eliminar>

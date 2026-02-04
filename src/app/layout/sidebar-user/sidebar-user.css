@@ -1,0 +1,169 @@
+/* --- Contenedor del Sidebar --- */
+.sidebar {
+    position: fixed;
+    top: 114.8px;
+    left: 0;
+    width: 200px;
+    height: calc(100vh - 114.8px);
+    /* Ajustado para que empiece exacto bajo el navbar */
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+    z-index: 1000;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 5px solid black;
+    box-sizing: border-box;
+}
+
+.sidebar-header {
+    padding: 0 25px 20px 25px;
+    margin-bottom: 0px;
+    border-bottom: 5px solid black;
+}
+
+.sidebar-header small {
+    color: #0a0a0a;
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-size: 0.65rem;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.sidebar-links a {
+    padding: 15px 25px;
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid transparent;
+    transition: 0.3s;
+}
+
+.sidebar-links a:hover {
+    background-color: #fcfcfc;
+    color: #000;
+}
+
+.sidebar-links a.active {
+    background-color: #f8f8f8;
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    /* probá 2px, 4px, 6px */
+}
+
+.footprint-side {
+    width: 18px;
+    height: 18px;
+    background-image: url('/images/huella_inv.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+}
+
+.sidebar-links a.active .footprint-side {
+    opacity: 1;
+}
+
+/* --- Botón Hamburguesa Móvil --- */
+.mobile-nav-toggle {
+    display: none;
+    /* Oculto en escritorio */
+    position: fixed;
+    top: 95px;
+    left: 20px;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    z-index: 1150;
+    /* Superior al sidebar (1000) y inferior al footer (1200) */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 0px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-nav-toggle .bar {
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+/* --- RESPONSIVIDAD --- */
+@media (max-width: 970px) {
+    .mobile-nav-toggle {
+        display: flex;
+        left: 10px;
+    }
+
+    .sidebar {
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        transform: translateX(-100%);
+        border-right: none;
+        padding-top: 130px;
+        /* Para que el texto no choque con el tope del celular */
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* Animación hamburguesa a X */
+    .mobile-nav-toggle.active .bar:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .mobile-nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-nav-toggle.active .bar:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .sidebar.open {
+        text-align: center;
+    }
+
+    .sidebar-links {
+        align-items: center;
+    }
+
+}
+
+@media (max-width: 470px) {
+    .sidebar {
+        width: 100%;
+        padding-top: 120px;
+    }
+
+    .mobile-nav-toggle {
+        top: 95px;
+    }
+
+    .sidebar.open {
+        text-align: center;
+    }
+
+    .sidebar-links {
+        align-items: center;
+    }
+}

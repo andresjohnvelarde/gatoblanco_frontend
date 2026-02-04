@@ -1,0 +1,31 @@
+<div class="page-wrapper">
+    <nav class="navbar admin-nav">
+        <div class="nav-container">
+            <a routerLink="/admin" class="logo">
+                <img src="images/portada.png" alt="GatoBlanco Logo" class="logo-img">
+            </a>
+
+            <div class="admin-profile-section">
+                <div class="user-info">
+                    <span class="user-name">{{ userName }}</span>
+                    <span class="user-role">{{ userRole }}</span>
+                </div>
+
+                <button class="btn-logout" (click)="logout()">
+                    <span class="logout-text">CERRAR SESIÓN</span>
+                    <i class="fas fa-sign-out-alt"></i>
+                    <!-- <span class="footprint-logout"></span> -->
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <app-sidebar-user [isOpen]="isSideBarOpen" (closeSidebar)="isSideBarOpen = false"
+            (toggleSidebar)="isSideBarOpen = !isSideBarOpen">
+        </app-sidebar-user>
+        <router-outlet></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+</div>

@@ -1,0 +1,54 @@
+<div class="contenedor_noticias">
+    <app-titulo texto="Administrar Usuarios"></app-titulo>
+
+</div>
+
+
+<div class="admin-page-container">
+    <div class="admin-header">
+
+        <!-- <div class="search-box">
+            <input type="text" [(ngModel)]="filtro" placeholder="Buscar usuario por título...">
+        </div> -->
+
+        <div class="header-right">
+            <button class="btn-primary" (click)="abrirModalCrear()">CREAR USUARIO +</button>
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Username</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let usuario of usuarios">
+                    <td class="bold">{{ usuario.nombres }}</td>
+                    <td class="bold">{{ usuario.apellidos }}</td>
+                    <td class="bold">{{ usuario.username }}</td>
+                    <td class="actions-cell">
+                        <button class="btn-icon" title="Modificar Usuario" (click)="abrirModalEditar(usuario)"><i
+                                class="fas fa-edit"></i></button>
+                        <button class="btn-icon btn-danger" title="Eliminar Usuario"><i class="fas fa-trash"
+                                (click)="abrirModalEliminar(usuario)"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<app-modal-ce-usuario *ngIf="mostrarModal" [usuarioParaEditar]="usuarioSeleccionado" (close)="mostrarModal = false"
+    (save)="guardarUsuario($event)">
+</app-modal-ce-usuario>
+
+<app-modal-eliminar *ngIf="mostrarModalEliminar" [preMensaje]="'¿Confirma la eliminación del usuario '"
+    [objetoNombre]="noticiaParaEliminar?.nombres" [sufMensaje]="' del sistema?'" (alConfirmar)="confirmarEliminacion()"
+    (alCancelar)="mostrarModalEliminar = false">
+</app-modal-eliminar>

@@ -1,0 +1,255 @@
+/* ===== BASE ===== */
+.home {
+    padding: 0px 200px;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.section-header h2 {
+    font-size: 2.3rem;
+    text-transform: uppercase;
+    border-left: 6px solid #000;
+    padding-left: 18px;
+    margin-bottom: 40px;
+    letter-spacing: -1px;
+}
+
+/* ===== GRID ===== */
+.grid {
+    display: grid;
+    gap: 40px;
+}
+
+.grid.novedades {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid.vistos {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* ===== CARD ===== */
+.card {
+    cursor: pointer;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+/* ===== MEDIA ===== */
+.media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: #eee;
+    aspect-ratio: 16 / 9;
+}
+
+.media img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.card:hover img {
+    transform: scale(1.03);
+}
+
+/* ===== BADGE ===== */
+.badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge.reportaje {
+    background: #444;
+}
+
+/* ===== VIEWS ===== */
+.views {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* ===== CONTENT ===== */
+.content {
+    padding: 18px 0;
+}
+
+.date {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.meta {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.card-large h3 {
+    font-size: 1.7rem;
+    margin: 14px 0;
+}
+
+.card-small h4 {
+    font-size: 1.15rem;
+    margin: 10px 0;
+}
+
+.content p {
+    color: #444;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ===== READ MORE ===== */
+.read-more {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #000;
+}
+
+.read-more.small {
+    font-size: 0.8rem;
+}
+
+.footprint {
+    width: 26px;
+    height: 26px;
+    background: url('/images/huella_inv.png') no-repeat center / contain;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.card:hover .footprint {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.card:hover h3,
+.card:hover h4 {
+    color: #444;
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+    border: none;
+    border-top: 2px solid #ddd;
+    margin: 60px 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+    .home {
+        padding: 0px 80px;
+    }
+}
+
+@media (max-width: 900px) {
+    .home {
+        padding: 0px 20px;
+    }
+
+    .grid.novedades,
+    .grid.vistos {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .section {
+        margin-bottom: 20px;
+    }
+}
+
+/* --- ANIMACIONES DE APARICIÓN --- */
+
+@keyframes fadeInUpHome {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aplicar a las tarjetas de ambas secciones */
+.card {
+    /* Mantenemos tus estilos y agregamos la animación */
+    animation: fadeInUpHome 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+/* Aplicar también a los títulos de las secciones para que no aparezcan de golpe */
+.section-header h2 {
+    animation: fadeInUpHome 0.6s ease-out both;
+}
+
+/* Efecto Cascada (Stagger) para Novedades (2 columnas) */
+.grid.novedades .card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.grid.novedades .card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+/* Efecto Cascada (Stagger) para Lo más visto (3 columnas) */
+.grid.vistos .card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.grid.vistos .card:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.grid.vistos .card:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* El divisor también puede aparecer suavemente */
+.divider {
+    animation: fadeInDivider 1s ease-in both;
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInDivider {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

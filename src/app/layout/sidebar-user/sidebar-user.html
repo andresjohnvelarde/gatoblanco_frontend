@@ -1,0 +1,29 @@
+<button class="mobile-nav-toggle" (click)="onToggle()" [class.active]="isOpen">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</button>
+
+<aside class="sidebar" [class.open]="isOpen">
+    <div class="sidebar-header">
+        <small>PANEL DE OPCIONES</small>
+    </div>
+
+    <nav class="sidebar-links">
+        <a routerLink="/home-user" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            (click)="onLinkClick()">
+            NOTICIAS <span class="footprint-side"></span>
+        </a>
+        <a routerLink="/home-user/reportajes-usuario" routerLinkActive="active" (click)="onLinkClick()">
+            REPORTAJES <span class="footprint-side"></span>
+        </a>
+        <a routerLink="/home-user/mensajes-usuario" routerLinkActive="active" (click)="onLinkClick()">
+            MENSAJES <span class="footprint-side"></span>
+        </a>
+
+        <a *ngIf="userRole === 'ROLE_administrador'" routerLink="/home-user/usuarios-usuario" routerLinkActive="active"
+            (click)="onLinkClick()">
+            USUARIOS <span class="footprint-side"></span>
+        </a>
+    </nav>
+</aside>

@@ -1,0 +1,243 @@
+.contenedor_noticias {
+    padding: 20px 220px;
+}
+
+@media (max-width: 970px) {
+    .contenedor_noticias {
+        padding: 20px 20px;
+    }
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: #e6e6e6;
+}
+
+.admin-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* .admin-table tbody tr:hover {
+    background-color: #c4c0c0;
+} */
+
+.admin-page-container {
+    margin-left: 200px;
+    /* Ancho de tu sidebar */
+    padding: 40px;
+    background: #fff;
+    padding-top: 0;
+}
+
+.admin-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-right {
+    margin-left: auto;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.search-box input {
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    width: 300px;
+    font-family: inherit;
+}
+
+.btn-primary {
+
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Tabla */
+.table-responsive {
+    border: solid black 3px;
+
+    /* mismo alto que antes */
+    overflow-x: auto;
+
+    overflow-y: hidden;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+.admin-table th {
+    background: #000;
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-size: 0.8rem;
+    border: 2px solid #121212;
+    text-transform: uppercase;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+
+}
+
+/* Badges */
+.badge {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.badge.visible {
+    background: #e6fffa;
+    color: #2c7a7b;
+}
+
+.badge.oculto {
+    background: #fff5f5;
+    color: #c53030;
+}
+
+/* Acciones */
+.actions-cell {
+    display: flex;
+    align-items: center;
+    /* Centrado vertical */
+    justify-content: flex-start;
+    /* Alineado a la izquierda */
+    gap: 10px;
+    /* Espacio entre iconos */
+
+    /* Forzamos que la altura mínima coincida con el ritmo visual de las otras celdas */
+    min-height: 60px;
+    height: 100%;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    padding: 3px;
+}
+
+.btn-icon:hover {
+    color: #000;
+    transform: scale(1.2);
+}
+
+.btn-icon.btn-danger:hover {
+    color: #e74c3c;
+    /* Un rojo elegante para eliminar */
+}
+
+/* Paginación */
+.pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination button {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.pagination button.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* RESPONSIVO */
+@media (max-width: 970px) {
+    .admin-page-container {
+        margin-left: 0;
+        padding: 20px;
+        padding-top: 0px;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
+    .admin-table td.no-results {
+        text-align: left;
+    }
+}
+
+@media (max-width: 470px) {
+    .pagination button {
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 4px 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.7rem;
+    }
+
+    .btn-primary {
+        height: 42px;
+        background: #000;
+        color: #fff;
+        border: none;
+        font-family: sans-serif;
+        padding: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .header-right {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        box-sizing: border-box;
+    }
+
+    .admin-table td {
+        padding: 5px;
+        border-bottom: 1px solid #eee;
+        font-size: 0.9rem;
+    }
+
+    .table-responsive {
+        max-height: 330px;
+        min-height: 330px;
+        border: solid black 1px;
+    }
+}

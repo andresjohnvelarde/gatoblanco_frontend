@@ -1,0 +1,287 @@
+.section-title {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    border-left: 5px solid #000;
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    letter-spacing: -1px;
+}
+
+.separador {
+
+    text-align: center;
+    margin-top: 15px;
+    border-bottom: 2px solid black;
+
+}
+
+.reportajes-container {
+    padding: 10px 200px;
+    font-family: sans-serif;
+    min-height: 80vh;
+}
+
+.page-header {
+    margin-bottom: 60px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+}
+
+.page-title {
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: -2px;
+}
+
+.page-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+/* --- GRID DE 2 COLUMNAS --- */
+.reportajes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px 40px;
+}
+
+.news-card {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+.card-image img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+/* HOVER EFECTOS */
+.news-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.news-card:hover .card-title {
+    color: #444;
+}
+
+.news-card:hover .footprint-btn {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* CONTENIDO DE CARTA */
+.card-body {
+    padding-top: 20px;
+}
+
+.card-date {
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.card-title {
+    font-size: 1.6rem;
+    margin: 10px 0 15px 0;
+    line-height: 1.2;
+    transition: color 0.3s;
+}
+
+.card-desc {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* EL BOTÓN CON HUELLA (Reutilizando tu estilo) */
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.footprint-btn {
+    width: 22px;
+    height: 22px;
+    background-image: url('/images/huella_inv.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.pagination-container {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pag-btn {
+    background: #fff;
+    border: 1px solid #000;
+    min-width: 45px;
+    height: 45px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.pag-btn:hover:not(:disabled) {
+    background: #000;
+    color: #fff;
+}
+
+.pag-btn.active {
+    background: #000;
+    color: #fff;
+}
+
+/* Estilo para botones << < > >> deshabilitados */
+.pag-btn:disabled {
+    border-color: #ddd;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.pag-dots {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #999;
+}
+
+
+.rotate-left {
+    transform: rotate(180deg);
+}
+
+/* RESPONSIVO */
+@media (max-width: 970px) {
+    .reportajes-container {
+        padding: 10px 20px;
+    }
+
+    .reportajes-grid {
+        grid-template-columns: 1fr;
+        /* 1 columna en móvil */
+        gap: 40px;
+    }
+
+    .page-title {
+        font-size: 2.2rem;
+    }
+
+    .pagination-container {
+        margin: 50px 0px;
+    }
+}
+
+/* Móvil: Ajustar espacio */
+@media (max-width: 600px) {
+    .reportajes-container {
+        padding-bottom: 0;
+    }
+
+    .pagination-container {
+        gap: 5px;
+        margin: 30px 0px;
+    }
+
+    .pag-btn {
+        min-width: 23px;
+        height: 23px;
+        font-size: 0.6rem;
+        padding: 0px 0px;
+    }
+
+    .nav-btn {
+        padding: 0px;
+
+    }
+
+    .pag-dots {
+        font-weight: bold;
+        padding: 0 1px;
+        color: #999;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+}
+
+/* --- NUEVAS ANIMACIONES --- */
+
+/* Animación de entrada: Suave y hacia arriba */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Clase que aplicaremos a las tarjetas */
+.news-card {
+    /* ... tus estilos anteriores se mantienen ... */
+    animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* Opcional: Si quieres que no aparezcan todas de golpe al cargar, 
+   puedes añadir un pequeño retraso a las primeras */
+.news-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.news-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.news-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.news-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* También animamos el título de la sección para coherencia */
+.section-title {
+    /* ... tus estilos anteriores ... */
+    animation: fadeInUp 0.5s ease-out both;
+}

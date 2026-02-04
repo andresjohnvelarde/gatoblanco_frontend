@@ -1,0 +1,53 @@
+<main class="reportajes-container">
+
+    <h2 class="section-title">Reportajes</h2>
+
+    <div class="reportajes-grid">
+        <article class="news-card clickable-card" *ngFor="let noticia of reportajesPaginados"
+            (click)="irADetalle(noticia)">
+            <div class="card-image">
+                <img [src]="noticia.img" alt="Imagen noticia">
+            </div>
+            <div class="card-body">
+                <span class="card-date">{{ noticia.fecha }}</span>
+                <h2 class="card-title">{{ noticia.titulo }}</h2>
+                <p class="card-desc">{{ noticia.desc }}</p>
+                <div class="btn-link">
+                    Seguir leyendo
+                    <span class="footprint-btn"></span>
+                </div>
+            </div>
+            <div class="separador"></div>
+        </article>
+    </div>
+
+    <nav class="pagination-container" *ngIf="totalPaginas > 1">
+        <button class="pag-btn nav-btn" [disabled]="paginaActual === 1" (click)="cambiarPagina(1)"
+            *ngIf="totalPaginas >= 6">
+            «
+        </button>
+
+        <button class="pag-btn nav-btn" [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)"
+            *ngIf="totalPaginas >= 6">
+            ‹
+        </button>
+
+        <ng-container *ngFor="let p of paginasVisibles">
+            <button class="pag-btn" *ngIf="p !== '...'" [class.active]="p === paginaActual" (click)="cambiarPagina(p)">
+                {{ p }}
+            </button>
+            <span class="pag-dots" *ngIf="p === '...'">...</span>
+        </ng-container>
+
+        <button class="pag-btn nav-btn" [disabled]="paginaActual === totalPaginas"
+            (click)="cambiarPagina(paginaActual + 1)" *ngIf="totalPaginas >= 6">
+            ›
+        </button>
+
+        <button class="pag-btn nav-btn" [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(totalPaginas)"
+            *ngIf="totalPaginas >= 6">
+            »
+        </button>
+
+    </nav>
+</main>

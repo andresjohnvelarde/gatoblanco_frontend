@@ -1,0 +1,66 @@
+<main class="home">
+
+    <!-- NOVEDADES -->
+    <section class="section">
+        <header class="section-header">
+            <h2>Noticias y Reportajes Recientes</h2>
+        </header>
+
+        <div class="grid novedades">
+            <article class="card card-large" *ngFor="let item of novedades" (click)="irADetalle(item)">
+                <div class="media">
+                    <img [src]="item.img1" [alt]="item.titulo" />
+                    <span class="badge" [class.reportaje]="item.tipo === 'reportaje'">
+                        {{ item.tipo | titlecase }}
+                    </span>
+                </div>
+
+                <div class="content">
+                    <span class="date">{{ item.fecha_publicacion_formateada }}</span>
+                    <h3>{{ item.titulo }}</h3>
+                    <p>{{ item.descripcion }}</p>
+
+                    <span class="read-more">
+                        Continuar leyendo
+                        <i class="footprint"></i>
+                    </span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- MÁS VISTOS -->
+    <section class="section">
+        <header class="section-header">
+            <h2>Lo más visto</h2>
+        </header>
+
+        <div class="grid vistos">
+            <article class="card card-small" *ngFor="let item of masVistos" (click)="irADetalle(item)">
+                <div class="media">
+                    <img [src]="item.img1 ? apiUrl + '/' + item.img1 : '/images/noticia2.jpeg'" alt="Imagen noticia" />
+                    <span class="views">
+                        {{ item.visualizaciones }} Vistas
+                    </span>
+                </div>
+
+                <div class="content">
+                    <small class="meta">
+                        {{ item.tipo | titlecase }} • {{ item.fecha_publicacion_formateada }}
+                    </small>
+
+                    <h4>{{ item.titulo }}</h4>
+                    <p>{{ item.descripcion }}</p>
+
+                    <span class="read-more small">
+                        Ver {{ item.tipo }}
+                        <i class="footprint"></i>
+                    </span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</main>
