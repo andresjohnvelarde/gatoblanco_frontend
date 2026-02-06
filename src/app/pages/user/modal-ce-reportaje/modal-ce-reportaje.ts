@@ -119,12 +119,14 @@ export class ModalCeReportaje {
       group = this.fb.group({
         idbloque: [block.idbloque || null],
         type: 'paragraph',
+        alineacion: [block.alineacion || 'left'],
         content: [block.texto || '', Validators.required]
       });
     } else if (block.tipo === 'subtitulo') {
       group = this.fb.group({
         idbloque: [block.idbloque || null],
         type: 'subtitle',
+        alineacion: [block.alineacion || 'left'],
         content: [block.texto || '', Validators.required]
       });
     } else if (block.tipo === 'imagen') {
@@ -197,6 +199,7 @@ export class ModalCeReportaje {
   addParagraph(indice: number) {
     const nuevoParrafo = this.fb.group({
       type: 'paragraph',
+      alineacion: 'left',
       content: ['', Validators.required]
     });
 
@@ -233,6 +236,7 @@ export class ModalCeReportaje {
   addSubtitle(indice: number) {
     const nuevoGrupo = this.fb.group({
       type: 'subtitle',
+      alineacion: 'left',
       content: ['', Validators.required]
     });
 
@@ -256,8 +260,6 @@ export class ModalCeReportaje {
         // Aquí obtenemos las dimensiones reales del archivo
         const ancho = img.width;
         const alto = img.height;
-
-        console.log(`Dimensiones detectadas: ${ancho}x${alto}px`);
 
         // Actualizamos el formulario con los nuevos valores
         this.bloques.at(index).patchValue({
@@ -349,6 +351,8 @@ export class ModalCeReportaje {
 
       // 🔹 Preparar bloques para backend
       const bloquesPayload: any[] = [];
+
+
       for (let i = 0; i < this.bloques.length; i++) {
         var rotacionFinal = 0;
 
@@ -358,6 +362,7 @@ export class ModalCeReportaje {
         if (block.type === 'image' && block.file) {
           const res = await lastValueFrom(this.imagenService.uploadImagen(block.file));
           url = res.url;
+
         }
         if (block.type === 'video' && block.file) {
           const res = await lastValueFrom(this.videoService.uploadVideo(block.file));
@@ -377,6 +382,7 @@ export class ModalCeReportaje {
             ? block.content
             : block.caption || null,
           rotacion: rotacionFinal,
+          alineacion: block.alineacion,
           alto: block.alto,
           ancho: block.ancho,
           url,
@@ -483,8 +489,9 @@ export class ModalCeReportaje {
                 ? block.content
                 : block.caption || null,
             rotacion: block.rotacion || 0,
+            alineacion: block.alineacion || 'left',
             alto: block.alto || 0,
-            ancho: block.rotacion || 0,
+            ancho: block.ancho || 0,
             url,
             orden: i
           });
@@ -608,6 +615,43 @@ export class ModalCeReportaje {
     }, 0);
   }
 
+  aplicarFormatoSubtitulo(index: number, tipo: 'bold' | 'italic' | 'underline', inputElement: HTMLInputElement) {
+    const tags = {
+      bold: { open: '<strong>', close: '</strong>' },
+      italic: { open: '<em>', close: '</em>' },
+      underline: { open: '<u>', close: '</u>' }
+    };
+
+    const selectedTag = tags[tipo];
+    const start = inputElement.selectionStart ?? 0;
+    const end = inputElement.selectionEnd ?? 0;
+    const contenido = inputElement.value;
+
+    // Texto seleccionado o placeholder
+    const textoSeleccionado = contenido.substring(start, end) || `texto-${tipo}`;
+    const snippet = `${selectedTag.open}${textoSeleccionado}${selectedTag.close}`;
+
+    // Construir el nuevo string
+    const nuevoTexto = contenido.substring(0, start) + snippet + contenido.substring(end);
+
+    // Actualizar el FormArray (usando 'texto' que es tu campo de BD)
+    this.bloques.at(index).patchValue({
+      content: nuevoTexto
+    });
+
+    // Re-enfocar y posicionar el cursor
+    setTimeout(() => {
+      inputElement.focus();
+
+      // En inputs no existe scrollTop, pero usamos scrollLeft por si el texto es muy largo
+      inputElement.scrollLeft = inputElement.scrollWidth;
+
+      // Calculamos la nueva posición del cursor al final del tag insertado
+      const nuevaPosicion = start + snippet.length;
+      inputElement.setSelectionRange(nuevaPosicion, nuevaPosicion);
+    }, 0);
+  }
+
   // Variables para recordar la selección
   tempSelection: any = null;
 
@@ -654,5 +698,11 @@ export class ModalCeReportaje {
   cancelarLink(dialog: HTMLDialogElement, input: HTMLInputElement) {
     input.value = '';
     dialog.close();
+  }
+
+  setAlineacion(index: number, valor: string) {
+    this.bloques.at(index).patchValue({
+      alineacion: valor
+    });
   }
 }

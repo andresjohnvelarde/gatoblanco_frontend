@@ -24,14 +24,14 @@
         <ng-container *ngFor="let b of publicacion.bloques">
 
             <!-- PÁRRAFO -->
-            <div *ngIf="b.tipo === 'parrafo'" class="articulo-texto">
+            <div *ngIf="b.tipo === 'parrafo'" class="articulo-texto" [style.text-align]="b.alineacion">
                 <!-- <p>{{ b.texto }}</p> -->
                 <p [innerHTML]="b.texto"></p>
             </div>
 
             <!-- SUBTÍTULO -->
-            <h2 *ngIf="b.tipo === 'subtitulo'" class="subtitulo">
-                {{ b.texto }}
+            <h2 *ngIf="b.tipo === 'subtitulo'" class="subtitulo" [style.text-align]="b.alineacion || 'left'">
+                <span [innerHTML]="b.texto"></span>
             </h2>
 
             <!-- IMAGEN -->

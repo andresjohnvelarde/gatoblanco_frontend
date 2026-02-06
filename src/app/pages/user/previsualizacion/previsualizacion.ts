@@ -77,7 +77,6 @@ export class Previsualizacion implements OnInit {
 
     const estaGira90 = (rotacion == 90 || rotacion == 270);
     const esOriginalAncha = ancho >= alto;
-    console.log("esoriginalAncha,ancho,alto", esOriginalAncha, ancho, alto)
 
     // CASO 3: Original ancha + Gira 90 (Se comporta como Caso 2 visualmente)
     if (estaGira90 && esOriginalAncha) return '450px';
@@ -95,9 +94,6 @@ export class Previsualizacion implements OnInit {
 
     const estaGira90 = (rotacion == 90 || rotacion == 270);
     const esOriginalAncha = ancho >= alto;
-
-    console.log("estaGira90,esOriginalAncha", estaGira90, esOriginalAncha)
-
 
     // CASO 3 y 2: El límite debe estar en el ancho visual o alto real
     if (!estaGira90 && !esOriginalAncha) return '450px';
