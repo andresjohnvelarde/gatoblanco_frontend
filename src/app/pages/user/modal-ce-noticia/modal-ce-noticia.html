@@ -51,6 +51,12 @@
 
                 <div class="optional-divider"><span>CONTENIDO DE LA NOTICIA</span></div>
 
+                <div class="block-toolbar">
+                    <button type="button" class="tool-btn" (click)="addParagraph(-1)">📝 Añadir Párrafo</button>
+                    <button type="button" class="tool-btn" (click)="addSubtitle(-1)">🧷 Añadir Subtítulo</button>
+                    <button type="button" class="tool-btn" (click)="addImage(-1)">🖼 Añadir Imagen</button>
+                    <button type="button" class="tool-btn" (click)="addVideo(-1)">🎥 Añadir Video</button>
+                </div>
 
                 <div formArrayName="bloques" class="blocks-container">
 
@@ -61,13 +67,37 @@
                         <!-- PÁRRAFO -->
                         <ng-container *ngIf="block.value.type === 'paragraph'">
                             <label class="block-label">Párrafo</label>
-                            <textarea formControlName="content" placeholder="Escribe el párrafo..."></textarea>
+                            <textarea formControlName="content" placeholder="Escribe el párrafo..." #txtArea></textarea>
+                            <button type="button" class="tool-btn" (click)="insertarLink(i, txtArea, linkDialog)">🔗
+                                Insertar
+                                Link</button>
+                            <button type="button" title="Negrita"
+                                (click)="aplicarFormato(i, 'bold', txtArea)"><b>B</b></button>
+                            <button type="button" title="Cursiva"
+                                (click)="aplicarFormato(i, 'italic', txtArea)"><i>I</i></button>
+                            <button type="button" title="Subrayado"
+                                (click)="aplicarFormato(i, 'underline', txtArea)"><u>U</u></button>
+
+                            <div>
+                                <button type="button" class="tool-btn" (click)="addParagraph(i)">📝 Añadir
+                                    Párrafo</button>
+                                <button type="button" class="tool-btn" (click)="addSubtitle(i)">🧷 Añadir
+                                    Subtítulo</button>
+                                <button type="button" class="tool-btn" (click)="addImage(i)">🖼 Añadir Imagen</button>
+                                <button type="button" class="tool-btn" (click)="addVideo(i)">🎥 Añadir Video</button>
+                            </div>
+
                         </ng-container>
 
                         <!-- SUBTÍTULO -->
                         <ng-container *ngIf="block.value.type === 'subtitle'">
                             <label class="block-label">Subtítulo</label>
                             <input type="text" formControlName="content" placeholder="Subtítulo de sección">
+
+                            <button type="button" class="tool-btn" (click)="addParagraph(i)">📝 Añadir Párrafo</button>
+                            <button type="button" class="tool-btn" (click)="addSubtitle(i)">🧷 Añadir Subtítulo</button>
+                            <button type="button" class="tool-btn" (click)="addImage(i)">🖼 Añadir Imagen</button>
+                            <button type="button" class="tool-btn" (click)="addVideo(i)">🎥 Añadir Video</button>
                         </ng-container>
 
                         <!-- IMAGEN -->
@@ -80,10 +110,23 @@
                             </label>
 
                             <div class="block-preview" *ngIf="block.value.preview">
-                                <img [src]="block.value.preview">
+                                <img [src]="block.value.preview"
+                                    [ngStyle]="{'transform': 'rotate(' + block.value.rotacion + 'deg)'}">
+
+                                <button type="button" class="btn-rotate-left" (click)="rotateImageLeft(i)" title="Girar 90°">
+                                    🔄 Girar a la Izquierda
+                                </button>
+                                <button type="button" class="btn-rotate-right" (click)="rotateImageRight(i)" title="Girar 90°">
+                                    🔄 Girar a la Derecha
+                                </button>
                             </div>
 
                             <input type="text" formControlName="caption" placeholder="Pie de imagen (opcional)">
+
+                            <button type="button" class="tool-btn" (click)="addParagraph(i)">📝 Añadir Párrafo</button>
+                            <button type="button" class="tool-btn" (click)="addSubtitle(i)">🧷 Añadir Subtítulo</button>
+                            <button type="button" class="tool-btn" (click)="addImage(i)">🖼 Añadir Imagen</button>
+                            <button type="button" class="tool-btn" (click)="addVideo(i)">🎥 Añadir Video</button>
                         </ng-container>
 
                         <!-- VIDEO -->
@@ -100,17 +143,17 @@
                             </div>
 
                             <input type="text" formControlName="caption" placeholder="Descripción del video (opcional)">
+
+                            <button type="button" class="tool-btn" (click)="addParagraph(i)">📝 Añadir Párrafo</button>
+                            <button type="button" class="tool-btn" (click)="addSubtitle(i)">🧷 Añadir Subtítulo</button>
+                            <button type="button" class="tool-btn" (click)="addImage(i)">🖼 Añadir Imagen</button>
+                            <button type="button" class="tool-btn" (click)="addVideo(i)">🎥 Añadir Video</button>
                         </ng-container>
 
                     </div>
                 </div>
 
-                <div class="block-toolbar">
-                    <button type="button" class="tool-btn" (click)="addParagraph()">📝 Añadir Párrafo</button>
-                    <button type="button" class="tool-btn" (click)="addSubtitle()">🧷 Añadir Subtítulo</button>
-                    <button type="button" class="tool-btn" (click)="addImage(null)">🖼 Añadir Imagen</button>
-                    <button type="button" class="tool-btn" (click)="addVideo(null)">🎥 Añadir Video</button>
-                </div>
+
 
                 <div class="form-group full">
                     <label>Link de publicación en Twitter (Opcional)</label>
@@ -150,7 +193,7 @@
                 </div>
 
                 <div class="block-toolbar">
-                    <button type="button" class="tool-btn" (click)="addAutoria(null)">📝 Añadir Autoría</button>
+                    <button type="button" class="tool-btn" (click)="addAutoria()">📝 Añadir Autoría</button>
                 </div>
             </div>
 
@@ -165,3 +208,18 @@
 </div>
 
 <app-loading *ngIf="isLoading"></app-loading>
+
+<dialog #linkDialog class="link-modal">
+    <h3>Insertar enlace</h3>
+
+    <input #linkInput type="url" placeholder="https://ejemplo.com" class="link-input">
+
+    <div class="actions">
+        <button class="btn primary" (click)="confirmarLink(linkDialog, linkInput)">
+            Insertar
+        </button>
+        <button class="btn secondary" (click)="cancelarLink(linkDialog, linkInput)">
+            Cancelar
+        </button>
+    </div>
+</dialog>

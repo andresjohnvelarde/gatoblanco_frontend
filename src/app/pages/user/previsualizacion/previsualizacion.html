@@ -25,7 +25,8 @@
 
             <!-- PÁRRAFO -->
             <div *ngIf="b.tipo === 'parrafo'" class="articulo-texto">
-                <p>{{ b.texto }}</p>
+                <!-- <p>{{ b.texto }}</p> -->
+                <p [innerHTML]="b.texto"></p>
             </div>
 
             <!-- SUBTÍTULO -->
@@ -35,7 +36,15 @@
 
             <!-- IMAGEN -->
             <figure *ngIf="b.tipo === 'imagen'" class="articulo-media">
-                <img [src]="b.urlCompleta" class="img-secondary">
+                <div class="img-container" [style.height]="esVerticalVisual(b) ? '450px' : 'auto'">
+
+                    <img [src]="b.urlCompleta" class="img-secondary" [ngStyle]="{
+                    'transform': 'rotate(' + b.rotacion + 'deg)',
+                    'max-width': getMaxWidth(b),
+                    'max-height': getMaxHeight(b)
+                    }">
+
+                </div>
                 <figcaption *ngIf="b.texto">{{ b.texto }}</figcaption>
             </figure>
 

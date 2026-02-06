@@ -134,6 +134,9 @@ export class ModalCeReportaje {
         file: [null],
         caption: [block.texto || ''],
         preview: [block.url ? this.apiUrl + '/' + block.url : ''],
+        rotacion: [block.rotacion || 0],
+        alto: [block.alto || 0],
+        ancho: [block.ancho || 0],
         old_url: block.url
       });
     } else if (block.tipo === 'video') {
@@ -191,42 +194,49 @@ export class ModalCeReportaje {
     return this.noticiaForm.get('autorias') as FormArray;
   }
 
-  addParagraph() {
-    this.bloques.push(
-      this.fb.group({
-        type: 'paragraph',
-        content: ['', Validators.required]
-      })
-    );
+  addParagraph(indice: number) {
+    const nuevoParrafo = this.fb.group({
+      type: 'paragraph',
+      content: ['', Validators.required]
+    });
+
+
+    this.bloques.insert(indice + 1, nuevoParrafo);
+
   }
 
-  addImage(url: string | null) {
-    this.bloques.push(this.fb.group({
+  addImage(indice: number) {
+    const nuevoGrupo = this.fb.group({
       type: 'image',
       file: [null],
       caption: [''],
-      preview: [''],
-      url_old: url
-    }));
+      rotacion: 0,
+      alto: 0,
+      ancho: 0,
+      preview: ['']
+    });
+
+    this.bloques.insert(indice + 1, nuevoGrupo);
   }
 
-  addVideo(url: string | null) {
-    this.bloques.push(this.fb.group({
+  addVideo(indice: number) {
+    const nuevoGrupo = this.fb.group({
       type: 'video',
       file: [null],
       caption: [''],
-      preview: [''],
-      url_old: url
-    }));
+      preview: ['']
+    });
+
+    this.bloques.insert(indice + 1, nuevoGrupo);
   }
 
-  addSubtitle() {
-    this.bloques.push(
-      this.fb.group({
-        type: 'subtitle',
-        content: ['', Validators.required]
-      })
-    );
+  addSubtitle(indice: number) {
+    const nuevoGrupo = this.fb.group({
+      type: 'subtitle',
+      content: ['', Validators.required]
+    });
+
+    this.bloques.insert(indice + 1, nuevoGrupo);
   }
 
   removeBlock(index: number) {
@@ -239,20 +249,53 @@ export class ModalCeReportaje {
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.bloques.at(index).patchValue({
-        file,
-        preview: reader.result
-      });
+      const img = new Image();
+      img.src = reader.result as string;
+
+      img.onload = () => {
+        // Aquí obtenemos las dimensiones reales del archivo
+        const ancho = img.width;
+        const alto = img.height;
+
+        console.log(`Dimensiones detectadas: ${ancho}x${alto}px`);
+
+        // Actualizamos el formulario con los nuevos valores
+        this.bloques.at(index).patchValue({
+          file: file,
+          preview: reader.result,
+          ancho: ancho,  // 👈 Guardamos el ancho
+          alto: alto     // 👈 Guardamos el alto
+        });
+      };
     };
     reader.readAsDataURL(file);
   }
 
-  addAutoria(url: string | null) {
+  rotateImageLeft(index: number) {
+    const bloque = this.bloques.at(index);
+    let rotacionActual = Number(bloque.value.rotacion) || 0;
+    let nuevaRotacion = rotacionActual - 90;
+
+    bloque.patchValue({
+      rotacion: nuevaRotacion
+    });
+  }
+
+  rotateImageRight(index: number) {
+    const bloque = this.bloques.at(index);
+    let rotacionActual = Number(bloque.value.rotacion) || 0;
+    let nuevaRotacion = rotacionActual + 90;
+
+    bloque.patchValue({
+      rotacion: nuevaRotacion
+    });
+  }
+
+  addAutoria() {
     this.autorias.push(this.fb.group({
       file: [null],
       descripcion: ['', Validators.required],
-      preview: [''],
-      url_old: url
+      preview: ['']
     }));
   }
 
@@ -307,6 +350,8 @@ export class ModalCeReportaje {
       // 🔹 Preparar bloques para backend
       const bloquesPayload: any[] = [];
       for (let i = 0; i < this.bloques.length; i++) {
+        var rotacionFinal = 0;
+
         const block = this.bloques.at(i).value;
 
         var url = block.old_url || null;
@@ -319,6 +364,8 @@ export class ModalCeReportaje {
           url = res.url; // solo filename
         }
 
+        if (block.rotacion)
+          rotacionFinal = ((block.rotacion % 360) + 360) % 360;
 
         bloquesPayload.push({
           idbloque: block.idbloque || null, // null = nuevo bloque
@@ -329,6 +376,9 @@ export class ModalCeReportaje {
           texto: (block.type === 'paragraph' || block.type === 'subtitle')
             ? block.content
             : block.caption || null,
+          rotacion: rotacionFinal,
+          alto: block.alto,
+          ancho: block.ancho,
           url,
           orden: i
         });
@@ -432,6 +482,9 @@ export class ModalCeReportaje {
               block.type === 'paragraph' || block.type === 'subtitle'
                 ? block.content
                 : block.caption || null,
+            rotacion: block.rotacion || 0,
+            alto: block.alto || 0,
+            ancho: block.rotacion || 0,
             url,
             orden: i
           });
@@ -519,5 +572,87 @@ export class ModalCeReportaje {
     }
     // Si es archivo nuevo, usamos la URL almacenada
     return this.previews[field];
+  }
+
+  aplicarFormato(index: number, tipo: 'bold' | 'italic' | 'underline', textarea: HTMLTextAreaElement) {
+    const tags = {
+      bold: { open: '<strong>', close: '</strong>' },
+      italic: { open: '<em>', close: '</em>' },
+      underline: { open: '<u>', close: '</u>' }
+    };
+
+    const scrollPos = textarea.scrollTop;
+    const selectedTag = tags[tipo];
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const contenido = textarea.value;
+
+    const textoSeleccionado = contenido.substring(start, end) || `PEGA_AQUÍ_TU_TEXTO-${tipo}`;
+    const snippet = `${selectedTag.open}${textoSeleccionado}${selectedTag.close}`;
+    const nuevoTexto = contenido.substring(0, start) + snippet + contenido.substring(end);
+
+    this.bloques.at(index).patchValue({
+      content: nuevoTexto
+    });
+
+    // --- LA MAGIA ESTÁ AQUÍ ---
+    setTimeout(() => {
+      textarea.focus();
+      textarea.scrollTop = scrollPos;
+
+      // Calculamos la posición: el inicio original + el largo de todo lo que insertamos
+      const nuevaPosicion = start + snippet.length;
+
+      // Seteamos el inicio y el fin en el mismo punto para que sea solo el cursor parpadeando
+      textarea.setSelectionRange(nuevaPosicion, nuevaPosicion);
+    }, 0);
+  }
+
+  // Variables para recordar la selección
+  tempSelection: any = null;
+
+  insertarLink(index: number, textarea: HTMLTextAreaElement, dialog: HTMLDialogElement) {
+    // Guardamos TODO el estado antes de abrir el modal
+    this.tempSelection = {
+      index: index,
+      textarea: textarea,
+      scrollPos: textarea.scrollTop,
+      start: textarea.selectionStart,
+      end: textarea.selectionEnd,
+      contenido: textarea.value
+    };
+
+    // Abrimos el modal (este no se cierra al cambiar de pestaña)
+    dialog.showModal();
+  }
+
+  confirmarLink(dialog: HTMLDialogElement, input: HTMLInputElement) {
+    const url = input.value;
+    if (!url) return;
+
+    const { index, textarea, scrollPos, start, end, contenido } = this.tempSelection;
+
+    const textoSeleccionado = contenido.substring(start, end) || 'Pega_tu_texto_acá';
+    const snippet = `<a href='${url}' target='_blank'>${textoSeleccionado}</a>`;
+    const nuevoContenido = contenido.substring(0, start) + snippet + contenido.substring(end);
+
+    // Actualizar modelo
+    this.bloques.at(index).patchValue({ content: nuevoContenido });
+
+    // Limpiar y cerrar
+    input.value = '';
+    dialog.close();
+
+    // Restaurar visualmente
+    setTimeout(() => {
+      textarea.focus();
+      textarea.scrollTop = scrollPos;
+      textarea.setSelectionRange(start + snippet.length, start + snippet.length);
+    }, 0);
+  }
+
+  cancelarLink(dialog: HTMLDialogElement, input: HTMLInputElement) {
+    input.value = '';
+    dialog.close();
   }
 }

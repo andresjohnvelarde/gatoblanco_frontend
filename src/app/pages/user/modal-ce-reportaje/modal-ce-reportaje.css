@@ -220,7 +220,7 @@ input:checked+.slider:before {
 }
 
 .form-group textarea {
-    resize: none;
+    resize: vertical;
     min-height: 120px;
     margin-top: 12px;
 }
@@ -347,11 +347,11 @@ input:checked+.slider:before {
     border: 1px solid #ddd;
     box-sizing: border-box;
     font-family: sans-serif;
-    resize: none;
+    resize: vertical;
 }
 
 .block-item textarea {
-    min-height: 70px;
+    min-height: 100px;
 }
 
 /* ====== BOTÓN SUBIR ARCHIVO ====== */
@@ -383,13 +383,69 @@ input:checked+.slider:before {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
+
+
+    width: 80%;
+    /* Tamaño máximo del cuadrado */
+    aspect-ratio: 1 / 1;
+    /* Lo hace cuadrado automáticamente */
+    margin: 10px 0;
+    background: #ebebeb;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
 }
 
 .block-preview img,
 .block-preview video {
     max-width: 100%;
     max-height: 250px;
+
 }
+
+.block-preview img {
+    /* Esto "encoje" la imagen para que quepa siempre en el cuadrado */
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-rotate-left,
+.btn-rotate-right {
+    position: absolute;
+
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 15px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 14px;
+}
+
+.btn-rotate-left {
+    bottom: 10px;
+    left: 10px;
+}
+
+.btn-rotate-right {
+    bottom: 10px;
+    right: 10px;
+}
+
+.btn-rotate-left:hover,
+.btn-rotate-right:hover {
+    background: #000;
+}
+
 
 /* ====== TOOLBAR ====== */
 
@@ -423,5 +479,97 @@ input:checked+.slider:before {
     .blocks-container,
     .block-toolbar {
         grid-column: span 1;
+    }
+}
+
+.link-modal {
+    border: none;
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: min(90vw, 400px);
+    font-family: system-ui, sans-serif;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Fondo oscuro */
+.link-modal::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+/* Título */
+.link-modal h3 {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+    color: #000000;
+    text-align: center;
+}
+
+/* Input */
+.link-input {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    border: 1px solid #90caf9;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.link-input:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+}
+
+/* Botones */
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+/* Botón principal */
+.btn.primary {
+    background: #161616;
+    color: white;
+}
+
+.btn.primary:hover {
+    background: #515152;
+}
+
+/* Botón secundario */
+.btn.secondary {
+    background: #f6f7f7;
+    color: #38393a;
+}
+
+.btn.secondary:hover {
+    background: #ebecec;
+}
+
+/* Responsive extra */
+@media (max-width: 400px) {
+    .actions {
+        justify-content: stretch;
+    }
+
+    .btn {
+        flex: 1;
     }
 }
