@@ -2,12 +2,36 @@
     padding: 0px 200px;
     /* Consistencia con tu diseño */
     font-family: sans-serif;
+
+    position: relative;
+    background: #fff;
+    /* AQUÍ está la magia */
+    z-index: 20;
 }
+
+.detalle-container::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+
+}
+
+.hero-scroll {
+    position: relative;
+    /* height: 200vh; */
+    /* espacio para el scroll */
+}
+
+
 
 .articulo-detalle {
     max-width: 900px;
     /* Limitamos el ancho del texto para legibilidad */
     margin: 0 auto;
+    padding-top: 30px;
 }
 
 /* --- Encabezado --- */
@@ -367,5 +391,139 @@ figcaption {
     .autor-card {
         max-width: 100%;
         /* Una sola columna en móvil */
+    }
+}
+
+/* --- Contenedor Hero (Imagen + Título) --- */
+.articulo-hero {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-wrapper {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.img-hero {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Asegura que cubra el 100% sin deformar */
+    filter: grayscale(0%) contrast(1.2);
+    /* Efecto Blanco y Negro profundo */
+}
+
+/* Oscurecemos la imagen para que el texto blanco resalte */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(204, 201, 201, 0.1) 0%, rgba(87, 86, 86, 0.7) 100%);
+}
+
+/* --- Texto Centrado sobre Imagen --- */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Centrado vertical */
+    align-items: center;
+    /* Centrado horizontal */
+    text-align: center;
+    padding: 0 10%;
+    color: #fff;
+}
+
+.titulo-hero {
+    font-size: 4.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -3px;
+    line-height: 0.95;
+    margin-bottom: 20px;
+    text-shadow: 0px 10px 20px rgba(0, 0, 0, 1);
+    max-width: 900px;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.meta-hero {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    /* Efecto vidrio sutil */
+    padding: 10px 25px;
+    backdrop-filter: blur(2px);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+}
+
+.footprint-icon.white {
+    filter: brightness(0) invert(1);
+    /* Huella blanca */
+}
+
+.divider {
+    margin: 0 10px;
+    opacity: 0.5;
+}
+
+/* --- EL EFECTO DE REVEAL (CORTE) --- */
+
+
+/* --- Responsivo --- */
+@media (max-width: 970px) {
+    .articulo-hero {
+        height: 60vh;
+    }
+
+    .titulo-hero {
+        font-size: 2.5rem;
+        letter-spacing: -1px;
+    }
+}
+
+@media (max-width: 470px) {
+    .articulo-hero {
+        height: 50vh;
+    }
+
+    .titulo-hero {
+        font-size: 1.8rem;
+    }
+
+    .meta-hero {
+        font-size: 0.6rem;
+        padding: 5px 10px;
+        gap: 2px;
+        text-align: center;
+    }
+
+    .subtitulo {
+        font-size: 1.5rem;
+        margin: 50px 0 20px;
+        font-weight: 600;
     }
 }

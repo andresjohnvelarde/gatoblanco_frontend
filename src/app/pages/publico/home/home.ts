@@ -64,4 +64,40 @@ export class Home {
       }
     });
   }
+
+  scrollToMasVistos() {
+    const el = document.getElementById('mas-vistos');
+    if (!el) return;
+
+    const startY = window.pageYOffset;
+    const targetY =
+      el.getBoundingClientRect().top + window.pageYOffset - 120;
+
+    const distance = targetY - startY;
+    const duration = 1200; // 👈 MÁS ALTO = MÁS LENTO (ms)
+
+    let startTime: number | null = null;
+
+    const easeInOutCubic = (t: number) =>
+      t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const animateScroll = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY + distance * eased);
+
+      if (elapsed < duration) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  }
+
+
 }

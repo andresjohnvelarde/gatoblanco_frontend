@@ -1,78 +1,88 @@
-<main class="detalle-container" *ngIf="publicacion">
-    <article class="articulo-detalle">
-
-        <!-- HEADER -->
-        <header class="articulo-header">
-            <h1 class="titulo-principal">{{ publicacion.titulo }}</h1>
-            <div class="meta-info">
-                <span class="footprint-icon"></span>
-                Publicado por GatoBlanco el {{ publicacion.fecha_publicacion_formateada }}
-            </div>
-        </header>
-
-        <!-- IMAGEN PRINCIPAL -->
-        <div *ngIf="publicacion.img1Url" class="articulo-media full-width">
-            <img [src]="publicacion.img1Url" class="img-main">
-        </div>
-
-        <!-- DESCRIPCIÓN -->
-        <div class="articulo-texto">
-            <p class="parrafo-destacado">{{ publicacion.descripcion }}</p>
-        </div>
-
-        <!-- BLOQUES DINÁMICOS -->
-        <ng-container *ngFor="let b of publicacion.bloques">
-
-            <!-- PÁRRAFO -->
-            <div *ngIf="b.tipo === 'parrafo'" class="articulo-texto" [style.text-align]="b.alineacion">
-                <!-- <p>{{ b.texto }}</p> -->
-                <p [innerHTML]="b.texto"></p>
+<section class="hero-scroll">
+    <div class="articulo-hero" *ngIf="publicacion">
+        <div class="hero-wrapper">
+            <div class="hero-image-container">
+                <img [src]="publicacion.img1Url" class="img-hero" alt="Imagen principal">
+                <div class="hero-overlay"></div>
             </div>
 
-            <!-- SUBTÍTULO -->
-            <h2 *ngIf="b.tipo === 'subtitulo'" class="subtitulo" [style.text-align]="b.alineacion || 'left'">
-                <span [innerHTML]="b.texto"></span>
-            </h2>
+            <header class="hero-content">
+                <h1 class="titulo-hero">{{ publicacion.titulo }}</h1>
+                <div class="meta-hero">
+                    <span class="meta-text">
+                        {{ publicacion.autores }} <span class="divider">|</span> {{
+                        publicacion.fecha_publicacion_formateada }}
+                    </span>
+                </div>
+            </header>
+        </div>
+    </div>
 
-            <!-- IMAGEN -->
-            <figure *ngIf="b.tipo === 'imagen'" class="articulo-media">
-                <div class="img-container" [style.height]="esVerticalVisual(b) ? '450px' : 'auto'">
 
-                    <img [src]="b.urlCompleta" class="img-secondary" [ngStyle]="{
+    <main class="detalle-container" *ngIf="publicacion">
+        <article class="articulo-detalle">
+
+
+
+            <!-- DESCRIPCIÓN -->
+            <div class="articulo-texto">
+                <p class="parrafo-destacado">{{ publicacion.descripcion }}</p>
+            </div>
+
+            <!-- BLOQUES DINÁMICOS -->
+            <ng-container *ngFor="let b of publicacion.bloques">
+
+                <!-- PÁRRAFO -->
+                <div *ngIf="b.tipo === 'parrafo'" class="articulo-texto" [style.text-align]="b.alineacion">
+                    <!-- <p>{{ b.texto }}</p> -->
+                    <p [innerHTML]="b.texto"></p>
+                </div>
+
+                <!-- SUBTÍTULO -->
+                <h2 *ngIf="b.tipo === 'subtitulo'" class="subtitulo" [style.text-align]="b.alineacion || 'left'">
+                    <span [innerHTML]="b.texto"></span>
+                </h2>
+
+                <!-- IMAGEN -->
+                <figure *ngIf="b.tipo === 'imagen'" class="articulo-media">
+                    <div class="img-container" [style.height]="esVerticalVisual(b) ? '450px' : 'auto'">
+
+                        <img [src]="b.urlCompleta" class="img-secondary" [ngStyle]="{
                     'transform': 'rotate(' + b.rotacion + 'deg)',
                     'max-width': getMaxWidth(b),
                     'max-height': getMaxHeight(b)
                     }">
 
-                </div>
-                <figcaption *ngIf="b.texto">{{ b.texto }}</figcaption>
-            </figure>
+                    </div>
+                    <figcaption *ngIf="b.texto">{{ b.texto }}</figcaption>
+                </figure>
 
-            <!-- VIDEO -->
-            <figure *ngIf="b.tipo === 'video'" class="articulo-media">
-                <video controls class="video-block">
-                    <source [src]="b.urlCompleta" type="video/mp4">
-                </video>
-                <figcaption *ngIf="b.texto">{{ b.texto }}</figcaption>
-            </figure>
+                <!-- VIDEO -->
+                <figure *ngIf="b.tipo === 'video'" class="articulo-media">
+                    <video controls class="video-block">
+                        <source [src]="b.urlCompleta" type="video/mp4">
+                    </video>
+                    <figcaption *ngIf="b.texto">{{ b.texto }}</figcaption>
+                </figure>
 
-        </ng-container>
+            </ng-container>
 
-        <!-- TWITTER -->
-        <div *ngIf="publicacion.link_twitter" class="twitter-section">
-            <a [href]="publicacion.link_twitter" target="_blank" class="btn-twitter">
-                <img src="/images/twitter.png" class="twitter-icon">
-                VER PUBLICACIÓN EN X
-            </a>
-        </div>
-
-        <!-- AUTORÍAS -->
-        <section *ngIf="publicacion.autorias?.length" class="autorias">
-            <div class="autor-card" *ngFor="let a of publicacion.autorias">
-                <img [src]="a.urlCompleta">
-                <span>{{ a.texto }}</span>
+            <!-- TWITTER -->
+            <div *ngIf="publicacion.link_twitter" class="twitter-section">
+                <a [href]="publicacion.link_twitter" target="_blank" class="btn-twitter">
+                    <img src="/images/twitter.png" class="twitter-icon">
+                    VER PUBLICACIÓN EN X
+                </a>
             </div>
-        </section>
 
-    </article>
-</main>
+            <!-- AUTORÍAS -->
+            <section *ngIf="publicacion.autorias?.length" class="autorias">
+                <div class="autor-card" *ngFor="let a of publicacion.autorias">
+                    <img [src]="a.urlCompleta">
+                    <span>{{ a.texto }}</span>
+                </div>
+            </section>
+
+        </article>
+    </main>
+</section>

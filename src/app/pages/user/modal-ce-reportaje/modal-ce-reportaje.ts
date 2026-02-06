@@ -67,6 +67,7 @@ export class ModalCeReportaje {
           // 🔹 Patch del formulario
           this.noticiaForm.patchValue({
             titulo: pub.titulo,
+            autores: pub.autores,
             descripcion: pub.descripcion,
             fechaPublicacion: pub.fecha_publicacion,
             estado: pub.estado === '1' || pub.estado === 1,
@@ -177,6 +178,7 @@ export class ModalCeReportaje {
   initForm() {
     this.noticiaForm = this.fb.group({
       titulo: ['', Validators.required],
+      autores: ['', Validators.required],
       descripcion: ['', Validators.required],
       fechaPublicacion: ['', Validators.required],
       img1: [null, Validators.required],
@@ -411,6 +413,7 @@ export class ModalCeReportaje {
 
       const payload = {
         titulo: this.noticiaForm.value.titulo,
+        autores: this.noticiaForm.value.autores,
         descripcion: this.noticiaForm.value.descripcion,
         fecha_publicacion: this.noticiaForm.value.fechaPublicacion,
         estado: this.noticiaForm.value.estado ? 1 : 0,
@@ -523,6 +526,7 @@ export class ModalCeReportaje {
         // 🧠 Payload final
         const payload = {
           titulo: this.noticiaForm.value.titulo,
+          autores: this.noticiaForm.value.autores,
           descripcion: this.noticiaForm.value.descripcion,
           fecha_publicacion: this.noticiaForm.value.fechaPublicacion,
           estado: this.noticiaForm.value.estado ? 1 : 0,

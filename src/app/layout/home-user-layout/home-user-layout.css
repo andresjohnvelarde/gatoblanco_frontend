@@ -20,6 +20,7 @@
     z-index: 1000;
     border-bottom: 1px solid #333;
     /* Línea sutil para separar del admin */
+        border-bottom: 1px solid white;
 }
 
 .nav-container {
