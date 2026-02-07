@@ -5,7 +5,7 @@
             <button class="btn-close" (click)="close.emit()">×</button>
         </div>
 
-        <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()" class="modal-body">
+        <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()" class="modal-body" [class.submitted-form]="formSubmitted">
 
             <div class="form-grid">
                 <div class="form-group full">
@@ -212,7 +212,7 @@
 
                             <label class="btn-upload">
                                 🎥 Seleccionar video
-                                <input type="file" accept="video/*" (change)="handleBlockFile($event, i)">
+                                <input type="file" accept="video/*" (change)="handleBlockVideo($event, i)">
                             </label>
 
                             <div class="block-preview" *ngIf="block.value.preview">
@@ -280,7 +280,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn-cancel" (click)="close.emit()">CANCELAR</button>
-                <button type="submit" class="btn-save" [disabled]="noticiaForm.invalid || isSubmitting">
+                <button type="submit" class="btn-save" [disabled]="isSubmitting">
                     {{ isSubmitting ? 'PROCESANDO...' : (noticiaParaEditar ? 'ACTUALIZAR' : 'GUARDAR') }}
                 </button>
             </div>

@@ -587,3 +587,10 @@ input:checked+.slider:before {
     background: #ccc;
     cursor: pointer;
 }
+
+.modal-body .ng-invalid.ng-touched,
+.modal-body.submitted-form .ng-invalid {
+    border: 2px solid #ff4d4d !important;
+    background-color: #fff2f2 !important;
+    outline: none;
+}

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImagenService } from '../../../services/imagen-service';
 import { PublicacionService } from '../../../services/publicacion-service';
@@ -45,7 +45,8 @@ export class ModalCeNoticia {
     private fb: FormBuilder,
     private imagenService: ImagenService,
     private videoService: VideoService,
-    private publicacionService: PublicacionService
+    private publicacionService: PublicacionService,
+    private el: ElementRef
   ) { }
 
   ngOnInit() {
@@ -275,6 +276,44 @@ export class ModalCeNoticia {
     reader.readAsDataURL(file);
   }
 
+  handleBlockVideo(event: any, index: number) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      // Creamos un elemento de video temporal
+      const video = document.createElement('video');
+
+      // Asignamos la fuente del video
+      video.src = reader.result as string;
+
+      // El evento 'loadedmetadata' es el equivalente a 'onload' para videos
+      // Se dispara cuando el navegador ya conoce el ancho, alto y duración
+      video.onloadedmetadata = () => {
+        const ancho = video.videoWidth;
+        const alto = video.videoHeight;
+
+        // Actualizamos el formulario
+        this.bloques.at(index).patchValue({
+          file: file,
+          preview: reader.result,
+          ancho: ancho,
+          alto: alto
+        });
+
+      };
+
+      // Manejo de errores por si el archivo está corrupto
+      video.onerror = () => {
+        console.error("Error al cargar el archivo de video.");
+      };
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   rotateImageLeft(index: number) {
     const bloque = this.bloques.at(index);
     let rotacionActual = Number(bloque.value.rotacion) || 0;
@@ -321,8 +360,48 @@ export class ModalCeNoticia {
     reader.readAsDataURL(file);
   }
 
+  private scrollToFirstInvalidControl() {
+    // 1. Intentamos buscar el primer input/textarea/select que sea inválido
+    // Buscamos específicamente etiquetas de formulario para evitar errores con contenedores div
+    const firstInvalidControl = this.el.nativeElement.querySelector(
+      'input.ng-invalid, textarea.ng-invalid, select.ng-invalid'
+    );
+
+    if (firstInvalidControl) {
+      // 2. Usamos scrollIntoView con 'nearest'
+      // Esto es más compatible con contenedores anidados
+      firstInvalidControl.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'nearest'
+      });
+
+      // 3. Forzamos el foco
+      setTimeout(() => {
+        firstInvalidControl.focus({ preventScroll: true });
+      }, 500);
+
+    } else {
+      // Si no encontró un input, quizás el error está en el contenedor del bloque
+      const firstInvalidGroup = this.el.nativeElement.querySelector('.ng-invalid');
+      if (firstInvalidGroup) {
+        firstInvalidGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+  formSubmitted = false;
+
   async onSubmit() {
-    if (this.noticiaForm.invalid) return;
+    this.formSubmitted = true;
+
+    if (this.noticiaForm.invalid) {
+      this.scrollToFirstInvalidControl();
+      return;
+    }
+
+    this.isSubmitting = true;
+
     this.isLoading = true;
 
     if (this.noticiaParaEditar) {
