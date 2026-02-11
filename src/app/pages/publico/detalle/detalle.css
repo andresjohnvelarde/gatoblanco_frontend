@@ -114,6 +114,7 @@
     line-height: 1.8;
     color: #333;
     margin-bottom: 30px;
+    white-space: pre-line;
 }
 
 .parrafo-destacado {

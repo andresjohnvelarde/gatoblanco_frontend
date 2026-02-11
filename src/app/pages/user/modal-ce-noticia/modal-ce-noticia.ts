@@ -677,8 +677,10 @@ export class ModalCeNoticia {
     const end = textarea.selectionEnd;
     const contenido = textarea.value;
 
-    const textoSeleccionado = contenido.substring(start, end) || `PEGA_AQUÍ_TU_TEXTO-${tipo}`;
-    const snippet = `${selectedTag.open}${textoSeleccionado}${selectedTag.close}`;
+    const textoSeleccionado = contenido.substring(start, end);
+    const snippet = textoSeleccionado
+      ? `${selectedTag.open}${textoSeleccionado}${selectedTag.close}`
+      : '';
     const nuevoTexto = contenido.substring(0, start) + snippet + contenido.substring(end);
 
     this.bloques.at(index).patchValue({
@@ -710,9 +712,10 @@ export class ModalCeNoticia {
     const end = inputElement.selectionEnd ?? 0;
     const contenido = inputElement.value;
 
-    // Texto seleccionado o placeholder
-    const textoSeleccionado = contenido.substring(start, end) || `texto-${tipo}`;
-    const snippet = `${selectedTag.open}${textoSeleccionado}${selectedTag.close}`;
+    const textoSeleccionado = contenido.substring(start, end);
+    const snippet = textoSeleccionado
+      ? `${selectedTag.open}${textoSeleccionado}${selectedTag.close}`
+      : '';
 
     // Construir el nuevo string
     const nuevoTexto = contenido.substring(0, start) + snippet + contenido.substring(end);
