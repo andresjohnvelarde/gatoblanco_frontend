@@ -5,7 +5,8 @@
             <button class="btn-close" (click)="close.emit()">×</button>
         </div>
 
-        <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()" class="modal-body" [class.submitted-form]="formSubmitted">
+        <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()" class="modal-body"
+            [class.submitted-form]="formSubmitted">
 
             <div class="form-grid">
                 <div class="form-group full">
@@ -15,8 +16,14 @@
 
                 <!-- Autores -->
                 <div class="form-group full">
-                    <label>Autores y medios* (La fecha se adhiere automáticamente)</label>
-                    <input type="text" formControlName="autores" placeholder="Ej: Publicado por Gatoblanco">
+                    <label>Autores y medios (Opcional)</label>
+                    <input type="text" formControlName="autores" placeholder="Ej: Publicado por Gatoblanco" #txtInput>
+
+                    <div class="alignment-toolbar">
+                        <button type="button" class="tool-btn" (click)="insertarLinkInput(txtInput, linkDialogInput)">🔗
+                            Insertar
+                            Link</button>
+                    </div>
                 </div>
                 <!-- Fin Autores -->
 
@@ -300,6 +307,21 @@
             Insertar
         </button>
         <button class="btn secondary" (click)="cancelarLink(linkDialog, linkInput)">
+            Cancelar
+        </button>
+    </div>
+</dialog>
+
+<dialog #linkDialogInput class="link-modal">
+    <h3>Insertar enlace</h3>
+
+    <input #linkInput2 type="url" placeholder="https://ejemplo.com" class="link-input">
+
+    <div class="actions">
+        <button class="btn primary" (click)="confirmarLinkInput(linkDialogInput, linkInput2)">
+            Insertar
+        </button>
+        <button class="btn secondary" (click)="cancelarLink(linkDialogInput, linkInput2)">
             Cancelar
         </button>
     </div>

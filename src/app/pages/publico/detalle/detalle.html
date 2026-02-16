@@ -10,8 +10,7 @@
                 <h1 class="titulo-hero">{{ publicacion.titulo }}</h1>
                 <div class="meta-hero">
                     <span class="meta-text">
-                        {{ publicacion.autores }} <span class="divider">|</span> {{
-                        publicacion.fecha_publicacion_formateada }}
+                        {{ publicacion.fecha_publicacion_formateada }}
                     </span>
                 </div>
             </header>
@@ -25,8 +24,8 @@
 
 
             <!-- DESCRIPCIÓN -->
-            <div class="articulo-texto">
-                <p class="parrafo-destacado">{{ publicacion.descripcion }}</p>
+            <div class="articulo-texto" *ngIf="publicacion.autores">
+                <p class="parrafo-destacado" [innerHTML]="publicacion.autores"></p>
             </div>
 
             <!-- BLOQUES DINÁMICOS -->

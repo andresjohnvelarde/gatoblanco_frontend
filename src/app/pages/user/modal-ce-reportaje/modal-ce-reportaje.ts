@@ -179,7 +179,7 @@ export class ModalCeReportaje {
   initForm() {
     this.noticiaForm = this.fb.group({
       titulo: ['', Validators.required],
-      autores: ['', Validators.required],
+      autores: [''],
       descripcion: ['', Validators.required],
       fechaPublicacion: ['', Validators.required],
       img1: [null, Validators.required],
@@ -740,6 +740,7 @@ export class ModalCeReportaje {
 
   // Variables para recordar la selección
   tempSelection: any = null;
+  tempSelectionInput: any = null;
 
   insertarLink(index: number, textarea: HTMLTextAreaElement, dialog: HTMLDialogElement) {
     // Guardamos TODO el estado antes de abrir el modal
@@ -778,6 +779,49 @@ export class ModalCeReportaje {
       textarea.focus();
       textarea.scrollTop = scrollPos;
       textarea.setSelectionRange(start + snippet.length, start + snippet.length);
+    }, 0);
+  }
+
+  insertarLinkInput(inputElement: HTMLInputElement, dialog: HTMLDialogElement) {
+    // Guardamos TODO el estado antes de abrir el modal
+    this.tempSelectionInput = {
+      inputElement: inputElement,
+      start: inputElement.selectionStart,
+      end: inputElement.selectionEnd,
+      contenido: inputElement.value
+    };
+
+    // Abrimos el modal (este no se cierra al cambiar de pestaña)
+    dialog.showModal();
+  }
+
+  confirmarLinkInput(dialog: HTMLDialogElement, input: HTMLInputElement) {
+    const url = input.value;
+    if (!url) return;
+
+    const { inputElement, start, end, contenido } = this.tempSelectionInput;
+
+    const textoSeleccionado = contenido.substring(start, end) || 'Pega_tu_texto_acá';
+    const snippet = `<a href='${url}' target='_blank'>${textoSeleccionado}</a>`;
+    const nuevoContenido = contenido.substring(0, start) + snippet + contenido.substring(end);
+
+    // Actualizar modelo
+    this.noticiaForm.get('autores')?.setValue(nuevoContenido);
+
+    // Limpiar y cerrar
+    input.value = '';
+    dialog.close();
+
+    // Restaurar visualmente
+    setTimeout(() => {
+      // En inputs no existe scrollTop, pero usamos scrollLeft por si el texto es muy largo
+      inputElement.scrollLeft = inputElement.scrollWidth;
+
+      // Calculamos la nueva posición del cursor al final del tag insertado
+      const nuevaPosicion = start + snippet.length;
+      inputElement.setSelectionRange(nuevaPosicion, nuevaPosicion);
+
+      inputElement.setSelectionRange(start + snippet.length, start + snippet.length);
     }, 0);
   }
 
