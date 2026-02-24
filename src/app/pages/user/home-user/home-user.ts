@@ -56,7 +56,6 @@ export class HomeUser {
           bloques: n.bloques
         }));
         this.cargando = false;
-        console.log(data)
 
       },
       error: (err) => {

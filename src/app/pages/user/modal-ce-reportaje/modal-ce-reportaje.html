@@ -186,6 +186,13 @@
                                 <input type="file" accept="image/*" (change)="handleBlockFile($event, i)">
                             </label>
 
+
+                            <button type="button" (click)="arreglarImagen(block.value.idbloque)" class="tool-btn"
+                                *ngIf="noticiaParaEditar && block?.value?.idbloque">Corregir imagen (Solo si se ve
+                                incompleta)
+                            </button>
+
+
                             <div class="block-preview" *ngIf="block.value.preview">
                                 <img [src]="block.value.preview"
                                     [ngStyle]="{'transform': 'rotate(' + block.value.rotacion + 'deg)'}">

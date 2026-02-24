@@ -314,6 +314,21 @@ export class ModalCeNoticia {
     reader.readAsDataURL(file);
   }
 
+  arreglarImagen(i: number) {
+    this.isLoading = true;
+
+    // 🔹 Llamada a backend
+    this.publicacionService.intercambiarDimensiones(i)
+      .subscribe({
+        next: () => {
+          this.close.emit();
+          this.isLoading = false;
+        },
+        error: (err) => console.error('Error al actualizar publicación', err),
+        complete: () => { this.isSubmitting = false; }
+      });
+  }
+
   rotateImageLeft(index: number) {
     const bloque = this.bloques.at(index);
     let rotacionActual = Number(bloque.value.rotacion) || 0;

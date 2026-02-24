@@ -80,4 +80,12 @@ export class PublicacionService {
       { withCredentials: true }
     );
   }
+
+  intercambiarDimensiones(id: number) {
+    return this.http.patch(
+      `${this.apiUrl}/bloques/${id}`,
+      {},
+      { withCredentials: true }
+    );
+  }
 }
